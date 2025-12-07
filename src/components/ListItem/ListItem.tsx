@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     backgroundColor: colors.background.paper,
     minHeight: layout.buttonHeight.medium,
+    borderRadius: layout.borderRadius.md,
   },
   divider: {
     borderBottomWidth: StyleSheet.hairlineWidth,

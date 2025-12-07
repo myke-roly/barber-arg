@@ -26,6 +26,7 @@ export interface ButtonProps extends PressableProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   style?: ViewStyle;
+  fullWidth?: boolean;
 }
 
 const ButtonRoot: React.FC<ButtonProps> = ({
@@ -34,6 +35,7 @@ const ButtonRoot: React.FC<ButtonProps> = ({
   size = 'medium',
   disabled,
   style,
+  fullWidth,
   ...props
 }) => {
   return (
@@ -51,6 +53,7 @@ const ButtonRoot: React.FC<ButtonProps> = ({
           pressed && variant === 'danger' && styles.dangerPressed,
           disabled && styles.disabled,
           style,
+          fullWidth && styles.fullWidth,
         ]}
         disabled={disabled}
         {...props}
@@ -68,6 +71,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: layout.borderRadius.md,
     gap: spacing.sm,
+  },
+  fullWidth: {
+    width: '100%',
   },
   // Sizes
   small: {
