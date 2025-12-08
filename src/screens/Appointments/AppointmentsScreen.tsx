@@ -5,7 +5,7 @@ import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AppointmentsStackParamList } from '../../navigation/types';
 import { screen } from '../../utils/screen';
-import { helpButton } from '../../utils/headerButtons';
+import { helpButton, notificationButton } from '../../utils/headerButtons';
 
 type Props = NativeStackScreenProps<AppointmentsStackParamList, 'Appointments'>;
 

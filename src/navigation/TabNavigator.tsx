@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeStackNavigator } from './HomeStackNavigator';
 import { AppointmentsStackNavigator } from './AppointmentsStackNavigator';
 import { ProfileStackNavigator } from './ProfileStackNavigator';
-import { Text } from '../components';
 import { colors } from '../theme';
 import type { TabParamList } from './types';
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -28,7 +28,7 @@ export const TabNavigator: React.FC = () => {
         options={{
           title: 'Inicio',
           tabBarIcon: ({ color, size }) => (
-            <Text style={{ fontSize: size, color }}>🏠</Text>
+            <Ionicons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -38,7 +38,7 @@ export const TabNavigator: React.FC = () => {
         options={{
           title: 'Citas',
           tabBarIcon: ({ color, size }) => (
-            <Text style={{ fontSize: size, color }}>📅</Text>
+            <Ionicons name="calendar" size={size} color={color} />
           ),
         }}
       />
@@ -48,7 +48,7 @@ export const TabNavigator: React.FC = () => {
         options={{
           title: 'Perfil',
           tabBarIcon: ({ color, size }) => (
-            <Text style={{ fontSize: size, color }}>👤</Text>
+            <Ionicons name="person" size={size} color={color} />
           ),
         }}
       />

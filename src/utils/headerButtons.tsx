@@ -15,7 +15,7 @@ export const closeButton = (navigation: NavigationProp<any>) => (
 );
 
 export const helpButton = (onPress: () => void) => (
-  <HeaderButton icon="help" onPress={onPress} />
+  <HeaderButton icon="chat" onPress={onPress} />
 );
 
 export const notificationButton = (onPress: () => void) => (

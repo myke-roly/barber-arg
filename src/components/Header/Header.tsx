@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     minWidth: 88, // Space for 2 buttons
   },
   titleContainer: {

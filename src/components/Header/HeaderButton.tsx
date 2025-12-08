@@ -1,22 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import { Text } from '../Text';
-import { colors, spacing } from '../../theme';
+import { StyleSheet, Pressable } from 'react-native';
+import { colors } from '../../theme';
+import { Ionicons } from '@expo/vector-icons';
 
-export type HeaderButtonIcon = 'back' | 'close' | 'help' | 'notifications' | 'menu';
 
 export interface HeaderButtonProps {
-  icon?: HeaderButtonIcon;
+  icon?: 'back' | 'close' | 'chat' | 'notifications' | 'menu';
   onPress: () => void;
   children?: React.ReactNode;
 }
 
-const iconMap: Record<HeaderButtonIcon, string> = {
-  back: '←',
-  close: '✕',
-  help: '?',
-  notifications: '🔔',
-  menu: '☰',
+const iconMap: {[key: string]: any} = {
+  back: 'arrow-back',
+  close: 'close',
+  chat: 'chatbox-outline',
+  notifications: 'notifications',
+  menu: 'menu',
 };
 
 export const HeaderButton: React.FC<HeaderButtonProps> = ({ icon, onPress, children }) => {
@@ -28,11 +27,9 @@ export const HeaderButton: React.FC<HeaderButtonProps> = ({ icon, onPress, child
         pressed && styles.pressed,
       ]}
     >
-      {children || (
-        <Text variant="heading3" style={styles.icon}>
-          {icon ? iconMap[icon] : ''}
-        </Text>
-      )}
+      {children || 
+        icon && (<Ionicons name={iconMap[icon]} size={20} color={colors.primary.main} />)
+      }
     </Pressable>
   );
 };
