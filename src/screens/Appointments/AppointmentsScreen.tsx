@@ -4,6 +4,8 @@ import { Text, Card, ListItem } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AppointmentsStackParamList } from '../../navigation/types';
+import { screen } from '../../utils/screen';
+import { helpButton } from '../../utils/headerButtons';
 
 type Props = NativeStackScreenProps<AppointmentsStackParamList, 'Appointments'>;
 
@@ -13,7 +15,7 @@ const mockAppointments = [
   { id: '3', client: 'Carlos López', service: 'Corte + Barba', time: 'Mañana 10:00' },
 ];
 
-export const AppointmentsScreen: React.FC<Props> = ({ navigation }) => {
+const AppointmentsScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -64,4 +66,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: colors.primary.light,
   },
+});
+
+export default screen(AppointmentsScreen, {
+  title: 'Mis Citas',
+  topBarRight: [helpButton(() => console.log('Help'))]
 });

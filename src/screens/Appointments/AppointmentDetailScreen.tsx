@@ -4,10 +4,12 @@ import { Text, Card, Button } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AppointmentsStackParamList } from '../../navigation/types';
+import { screen } from '../../utils/screen';
+import { backButton } from '../../utils/headerButtons';
 
 type Props = NativeStackScreenProps<AppointmentsStackParamList, 'AppointmentDetail'>;
 
-export const AppointmentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
+const AppointmentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
   const { id } = route.params;
 
   return (
@@ -60,4 +62,9 @@ const styles = StyleSheet.create({
   detailRow: {
     marginBottom: spacing.md,
   },
+});
+
+export default screen(AppointmentDetailScreen, {
+  title: 'Detalle de Cita',
+  topBarLeft: [(props: any) => backButton(props.navigation)]
 });

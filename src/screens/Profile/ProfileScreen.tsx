@@ -4,10 +4,12 @@ import { Text, Card, ListItem } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ProfileStackParamList } from '../../navigation/types';
+import { screen } from '../../utils/screen';
+import { notificationButton } from '../../utils/headerButtons';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Profile'>;
 
-export const ProfileScreen: React.FC<Props> = ({ navigation }) => {
+const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -97,4 +99,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
   },
+});
+
+export default screen(ProfileScreen, {
+  title: 'Perfil',
+  topBarRight: [notificationButton(() => console.log('Notifications'))]
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AppointmentsScreen } from '../screens/Appointments/AppointmentsScreen';
-import { AppointmentDetailScreen } from '../screens/Appointments/AppointmentDetailScreen';
+import AppointmentsScreen from '../screens/Appointments/AppointmentsScreen';
+import AppointmentDetailScreen from '../screens/Appointments/AppointmentDetailScreen';
 import type { AppointmentsStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AppointmentsStackParamList>();

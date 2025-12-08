@@ -4,10 +4,11 @@ import { Text, Button, Card } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { HomeStackParamList } from '../../navigation/types';
+import { screen } from '../../utils/screen';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>;
 
-export const HomeScreen: React.FC<Props> = ({ navigation }) => {
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -79,3 +80,5 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
 });
+
+export default screen(HomeScreen);
