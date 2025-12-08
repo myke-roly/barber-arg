@@ -5,3 +5,4 @@ export * from './ListItem';
 export * from './Field';
 export * from './Form';
 export * from './Header';
+export * from './BarbershopCard';
