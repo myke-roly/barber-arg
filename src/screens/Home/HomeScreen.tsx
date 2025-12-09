@@ -112,7 +112,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           userLocation={location}
           barbershops={sortedBarbershops}
           maxBarbershops={5}
-          onMarkerPress={(barbershop) => console.log('Marker pressed:', barbershop.name)}
+          onMarkerPress={(barbershop) => navigation.navigate('BarbershopDetail', { id: barbershop.id })}
         />
       )}
 
@@ -131,7 +131,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               key={barbershop.id}
               barbershop={barbershop}
               distance={'distance' in barbershop ? (barbershop as BarbershopWithDistance).distance : undefined}
-              onPress={() => console.log('Selected:', barbershop.name)}
+              onPress={() => navigation.navigate('BarbershopDetail', { id: barbershop.id })}
             />
           ))
         ) : (

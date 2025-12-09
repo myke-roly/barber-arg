@@ -10,6 +10,7 @@ export type TabParamList = {
 
 export type HomeStackParamList = {
   Home: undefined;
+  BarbershopDetail: { id: string };
 };
 
 export type AppointmentsStackParamList = {

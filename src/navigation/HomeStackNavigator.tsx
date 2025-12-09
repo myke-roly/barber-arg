@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/Home/HomeScreen';
+import BarbershopDetailScreen from '../screens/Barbershop/BarbershopDetailScreen';
 import type { HomeStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -13,6 +14,7 @@ export const HomeStackNavigator: React.FC = () => {
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="BarbershopDetail" component={BarbershopDetailScreen} />
     </Stack.Navigator>
   );
 };
