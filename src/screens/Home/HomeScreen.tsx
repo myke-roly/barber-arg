@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { Text, Button, BarbershopCard, BarbershopMap } from '../../components';
+import { Text, Button, BarbershopCard, BarbershopMap, SearchBar } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { HomeStackParamList } from '../../navigation/types';
@@ -17,6 +17,7 @@ type BarbershopWithDistance = Barbershop & { distance: number };
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { location, loading, error, permissionStatus, requestPermission } = useLocation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Calculate distances and sort barbershops
   const sortedBarbershops = useMemo<Barbershop[] | BarbershopWithDistance[]>(() => {
@@ -29,6 +30,21 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       }))
       .sort((a, b) => a.distance - b.distance);
   }, [location]);
+
+  // Filter barbershops based on search query
+  const filteredBarbershops = useMemo(() => {
+    if (!searchQuery.trim()) return sortedBarbershops;
+
+    const query = searchQuery.toLowerCase();
+    return sortedBarbershops.filter((barbershop) => {
+      const matchesName = barbershop.name.toLowerCase().includes(query);
+      const matchesAddress = barbershop.address.toLowerCase().includes(query);
+      const matchesServices = barbershop.services.some(service => 
+        service.toLowerCase().includes(query)
+      );
+      return matchesName || matchesAddress || matchesServices;
+    });
+  }, [sortedBarbershops, searchQuery]);
 
   console.log('permissionStatus', permissionStatus);
 
@@ -83,17 +99,15 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.header}>
-        <Text variant="heading1">Peluquerías Cercanas</Text>
-        <Text variant="body" color={colors.text.secondary}>
-          {location
-            ? 'Ordenadas por distancia desde tu ubicación'
-            : 'Mostrando todas las peluquerías'}
-        </Text>
-      </View>
+      {/* Search Bar */}
+      <SearchBar
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Buscar por nombre, dirección o servicio..."
+      />
 
       {/* Map showing nearby barbershops */}
-      {location && (
+      {location && !searchQuery && (
         <BarbershopMap
           userLocation={location}
           barbershops={sortedBarbershops}
@@ -102,15 +116,35 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         />
       )}
 
+      <View style={styles.header}>
+        <Text variant="body" color={colors.text.secondary}>
+          {location
+            ? 'Ordenadas por distancia desde tu ubicación'
+            : 'Mostrando todas las peluquerías'}
+        </Text>
+      </View>
+
       <View style={styles.listContainer}>
-        {sortedBarbershops.map((barbershop) => (
-          <BarbershopCard
-            key={barbershop.id}
-            barbershop={barbershop}
-            distance={'distance' in barbershop ? barbershop.distance : undefined}
-            onPress={() => console.log('Selected:', barbershop.name)}
-          />
-        ))}
+        {filteredBarbershops.length > 0 ? (
+          filteredBarbershops.map((barbershop) => (
+            <BarbershopCard
+              key={barbershop.id}
+              barbershop={barbershop}
+              distance={'distance' in barbershop ? (barbershop as BarbershopWithDistance).distance : undefined}
+              onPress={() => console.log('Selected:', barbershop.name)}
+            />
+          ))
+        ) : (
+          <View style={styles.emptyState}>
+            <Ionicons name="search-outline" size={64} color={colors.neutral.gray400} />
+            <Text variant="heading3" style={styles.emptyTitle}>
+              No se encontraron resultados
+            </Text>
+            <Text variant="body" color={colors.text.secondary} style={styles.emptyText}>
+              Intenta con otro término de búsqueda
+            </Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -132,7 +166,7 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
   },
   header: {
-    marginBottom: spacing.lg,
+    marginVertical: spacing.xs,
   },
   listContainer: {
     paddingBottom: spacing.xl,
@@ -152,6 +186,20 @@ const styles = StyleSheet.create({
   },
   permissionButton: {
     minWidth: 200,
+  },
+  emptyState: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.giant,
+  },
+  emptyTitle: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
+    textAlign: 'center',
+  },
+  emptyText: {
+    textAlign: 'center',
   },
 });
 
