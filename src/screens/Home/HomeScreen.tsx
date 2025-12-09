@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { Text, Button, BarbershopCard } from '../../components';
+import { Text, Button, BarbershopCard, BarbershopMap } from '../../components';
 import { colors, spacing } from '../../theme';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { HomeStackParamList } from '../../navigation/types';
@@ -91,6 +91,16 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             : 'Mostrando todas las peluquerías'}
         </Text>
       </View>
+
+      {/* Map showing nearby barbershops */}
+      {location && (
+        <BarbershopMap
+          userLocation={location}
+          barbershops={sortedBarbershops}
+          maxBarbershops={5}
+          onMarkerPress={(barbershop) => console.log('Marker pressed:', barbershop.name)}
+        />
+      )}
 
       <View style={styles.listContainer}>
         {sortedBarbershops.map((barbershop) => (
