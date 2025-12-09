@@ -16,7 +16,7 @@ const AppointmentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Card>
         <Card.Header title="Detalles de la Cita" subtitle={`ID: ${id}`} />
-        <Card.Body>
+        <Card.Content>
           <View style={styles.detailRow}>
             <Text variant="label">Cliente:</Text>
             <Text variant="body">Juan Pérez</Text>
@@ -37,15 +37,15 @@ const AppointmentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
             <Text variant="label">Precio:</Text>
             <Text variant="body">$500</Text>
           </View>
-        </Card.Body>
-        <Card.Footer>
+        </Card.Content>
+        <Card.Actions>
           <Button variant="outline" size="small" onPress={() => navigation.goBack()}>
             <Button.Text>Volver</Button.Text>
           </Button>
           <Button variant="primary" size="small">
             <Button.Text>Confirmar</Button.Text>
           </Button>
-        </Card.Footer>
+        </Card.Actions>
       </Card>
     </ScrollView>
   );

@@ -1,22 +1,25 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../Text';
 import { colors, spacing } from '../../theme';
+import { Ionicons } from '@expo/vector-icons';
 
 export interface HeaderProps {
   title?: string;
   leftButtons?: React.ReactNode[];
   rightButtons?: React.ReactNode[];
   backgroundColor?: string;
+  children?: React.ReactNode; // Allow children to customize internal layout if needed
 }
 
-export const Header: React.FC<HeaderProps> = ({
+export function Header({
   title,
   leftButtons = [],
   rightButtons = [],
   backgroundColor = colors.background.paper,
-}) => {
+  children,
+}: HeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -36,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
               {title}
             </Text>
           )}
+          {children}
         </View>
 
         {/* Right Section */}
@@ -46,6 +50,36 @@ export const Header: React.FC<HeaderProps> = ({
         </View>
       </View>
     </View>
+  );
+}
+
+const iconMap: {[key: string]: any} = {
+  back: 'arrow-back',
+  close: 'close',
+  chat: 'chatbox-outline',
+  notifications: 'notifications',
+  menu: 'menu',
+};
+
+export interface HeaderButtonProps {
+  icon?: 'back' | 'close' | 'chat' | 'notifications' | 'menu';
+  onPress: () => void;
+  children?: React.ReactNode;
+}
+
+Header.Button = function HeaderButton({ icon, onPress, children }: HeaderButtonProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && styles.pressed,
+      ]}
+    >
+      {children || 
+        (icon && <Ionicons name={iconMap[icon]} size={20} color={colors.primary.main} />)
+      }
+    </Pressable>
   );
 };
 
@@ -66,17 +100,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.md,
+    height: 44, // Explicit height for navbar content
   },
   section: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    minWidth: 88, // Space for 2 buttons
+    minWidth: 44,
   },
   titleContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.sm,
+  },
+  button: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+  },
+  pressed: {
+    backgroundColor: colors.neutral.gray100,
   },
 });

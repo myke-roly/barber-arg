@@ -1,9 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle, PressableProps } from 'react-native';
 import { colors, spacing, layout } from '../../theme';
-import { ListItemIcon } from './ListItem.Icon';
-import { ListItemText } from './ListItem.Text';
-import { ListItemAction } from './ListItem.Action';
+import { Text } from '../Text';
 
 export interface ListItemProps extends PressableProps {
   children: React.ReactNode;
@@ -11,13 +9,13 @@ export interface ListItemProps extends PressableProps {
   style?: ViewStyle;
 }
 
-const ListItemRoot: React.FC<ListItemProps> = ({ 
+export function ListItem({ 
   children, 
   divider, 
   onPress, 
   style,
   ...props 
-}) => {
+}: ListItemProps) {
   const Container = onPress ? Pressable : View;
 
   return (
@@ -34,6 +32,48 @@ const ListItemRoot: React.FC<ListItemProps> = ({
     >
       {children}
     </Container>
+  );
+}
+
+export interface ListItemIconProps {
+  children: React.ReactNode;
+}
+
+ListItem.Icon = function ListItemIcon({ children }: ListItemIconProps) {
+  return (
+    <View style={styles.iconContainer}>
+      {children}
+    </View>
+  );
+};
+
+export interface ListItemTextProps {
+  title: string;
+  subtitle?: string;
+}
+
+ListItem.Text = function ListItemText({ title, subtitle }: ListItemTextProps) {
+  return (
+    <View style={styles.textContainer}>
+      <Text variant="body" weight="medium">{title}</Text>
+      {subtitle && (
+        <Text variant="caption" style={styles.subtitle}>
+          {subtitle}
+        </Text>
+      )}
+    </View>
+  );
+};
+
+export interface ListItemActionProps {
+  children?: React.ReactNode;
+}
+
+ListItem.Action = function ListItemAction({ children }: ListItemActionProps) {
+  return (
+    <View style={styles.actionContainer}>
+      {children}
+    </View>
   );
 };
 
@@ -54,10 +94,21 @@ const styles = StyleSheet.create({
   pressed: {
     backgroundColor: colors.neutral.gray50,
   },
-});
-
-export const ListItem = Object.assign(ListItemRoot, {
-  Icon: ListItemIcon,
-  Text: ListItemText,
-  Action: ListItemAction,
+  iconContainer: {
+    marginRight: spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  subtitle: {
+    marginTop: 2,
+  },
+  actionContainer: {
+    marginLeft: spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

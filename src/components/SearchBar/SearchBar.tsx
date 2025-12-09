@@ -1,7 +1,6 @@
 import React from 'react';
 import { colors } from '../../theme';
 import { Field } from '../Field';
-import { FieldInput } from '../Field/Field.Input';
 
 export interface SearchBarProps {
   value: string;
@@ -16,7 +15,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   return (
     <Field>
-      <FieldInput
+      <Field.Input
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}

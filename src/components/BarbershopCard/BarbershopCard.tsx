@@ -36,7 +36,7 @@ export const BarbershopCard: React.FC<BarbershopCardProps> = ({
           )
         }
       />
-      <Card.Body>
+      <Card.Content>
         <View style={styles.ratingContainer}>
           <Ionicons name="star" size={16} color={colors.warning.main} />
           <Text variant="body" weight="medium" style={styles.rating}>
@@ -62,8 +62,8 @@ export const BarbershopCard: React.FC<BarbershopCardProps> = ({
             </Text>
           </View>
         )}
-      </Card.Body>
-      <Card.Footer>
+      </Card.Content>
+      <Card.Actions>
         <Button variant="outline" size="small" onPress={onPress}>
           <Button.Text>Ver más</Button.Text>
         </Button>
@@ -71,7 +71,7 @@ export const BarbershopCard: React.FC<BarbershopCardProps> = ({
           <Button.Icon name="calendar" />
           <Button.Text>Reservar</Button.Text>
         </Button>
-      </Card.Footer>
+      </Card.Actions>
     </Card>
   );
 };

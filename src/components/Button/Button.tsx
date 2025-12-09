@@ -1,6 +1,8 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, ComponentProps } from 'react';
 import { Pressable, StyleSheet, PressableProps, ViewStyle } from 'react-native';
 import { colors, layout, spacing } from '../../theme';
+import { Text } from '../Text';
+import { Ionicons } from '@expo/vector-icons';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -16,7 +18,7 @@ const ButtonContext = createContext<ButtonContextType | undefined>(undefined);
 export const useButtonContext = () => {
   const context = useContext(ButtonContext);
   if (!context) {
-    throw new Error('Button sub-components must be used within a Button');
+    throw new Error('Button.Text and Button.Icon must be used within a Button');
   }
   return context;
 };
@@ -29,7 +31,7 @@ export interface ButtonProps extends PressableProps {
   fullWidth?: boolean;
 }
 
-const ButtonRoot: React.FC<ButtonProps> = ({
+export function Button({
   children,
   variant = 'primary',
   size = 'medium',
@@ -37,7 +39,7 @@ const ButtonRoot: React.FC<ButtonProps> = ({
   style,
   fullWidth,
   ...props
-}) => {
+}: ButtonProps) {
   return (
     <ButtonContext.Provider value={{ variant, size, disabled: !!disabled }}>
       <Pressable
@@ -61,6 +63,71 @@ const ButtonRoot: React.FC<ButtonProps> = ({
         {children}
       </Pressable>
     </ButtonContext.Provider>
+  );
+}
+
+export interface ButtonTextProps {
+  children: string;
+}
+
+Button.Text = function ButtonText({ children }: ButtonTextProps) {
+  const { variant } = useButtonContext();
+
+  const getTextColor = () => {
+    switch (variant) {
+      case 'primary':
+      case 'secondary':
+      case 'danger':
+        return '#FFFFFF';
+      case 'outline':
+      case 'ghost':
+        return undefined; // Inherit or default
+      default:
+        return undefined;
+    }
+  };
+
+  return (
+    <Text 
+      variant="button" 
+      color={getTextColor()} 
+      weight="medium"
+    >
+      {children}
+    </Text>
+  );
+};
+
+export interface ButtonIconProps {
+  name: ComponentProps<typeof Ionicons>['name'];
+  size?: number;
+  position?: 'left' | 'right';
+}
+
+Button.Icon = function ButtonIcon({ name, size = 20 }: ButtonIconProps) {
+  const { variant } = useButtonContext();
+  
+  // Determine icon color based on button variant
+  const getIconColor = () => {
+    switch (variant) {
+      case 'primary':
+      case 'secondary':
+      case 'danger':
+        return '#FFFFFF';
+      case 'outline':
+      case 'ghost':
+        return undefined; // Use default color
+      default:
+        return undefined;
+    }
+  };
+  
+  return (
+    <Ionicons
+      name={name} 
+      size={size} 
+      color={getIconColor()} 
+    />
   );
 };
 
@@ -131,5 +198,3 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral.gray300,
   },
 });
-
-export { ButtonRoot as Button };
