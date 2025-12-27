@@ -24,36 +24,36 @@ export function Header({
 
   return (
     <View style={[styles.container, { backgroundColor, paddingTop: insets.top }]}>
-      <View style={styles.content}>
-        {/* Left Section */}
-        <View style={styles.section}>
-          {leftButtons.map((button, index) => (
-            <View key={`left-${index}`}>{button}</View>
-          ))}
-        </View>
+      {(!!title || !!leftButtons.length || !!rightButtons.length) && (
+        <View style={styles.content}>
+          {/* Left Section */}
+          <View style={styles.section}>
+            {leftButtons.map((button, index) => (
+              <View key={`left-${index}`}>{button}</View>
+            ))}
+          </View>
 
-        {/* Center Title */}
-        <View style={styles.titleContainer}>
-          {title && (
+          {/* Center Title */}
+          <View style={styles.titleContainer}>
             <Text variant="body" numberOfLines={1}>
               {title}
             </Text>
-          )}
-          {children}
-        </View>
+            {children}
+          </View>
 
-        {/* Right Section */}
-        <View style={styles.section}>
-          {rightButtons.map((button, index) => (
-            <View key={`right-${index}`}>{button}</View>
-          ))}
+          {/* Right Section */}
+          <View style={styles.section}>
+            {rightButtons.map((button, index) => (
+              <View key={`right-${index}`}>{button}</View>
+            ))}
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 }
 
-const iconMap: {[key: string]: any} = {
+const iconMap: { [key: string]: any } = {
   back: 'arrow-back',
   close: 'close',
   chat: 'chatbox-outline',
@@ -76,7 +76,7 @@ Header.Button = function HeaderButton({ icon, onPress, children }: HeaderButtonP
         pressed && styles.pressed,
       ]}
     >
-      {children || 
+      {children ||
         (icon && <Ionicons name={iconMap[icon]} size={20} color={colors.primary.main} />)
       }
     </Pressable>
